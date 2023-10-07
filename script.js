@@ -29,7 +29,15 @@ gradient1.addColorStop('0.5', 'yellow'); //warna akhir
 gradient1.addColorStop('0.6', 'green'); //warna akhir
 gradient1.addColorStop('0.7', 'turquoise'); //warna akhir
 gradient1.addColorStop('0.8', 'violet'); //warna akhir
-ctx.strokeStyle = gradient1;
+
+// const gradient2 = ctx.createRadialGradient(x * 0.5, y * 0.5, radius); //untuk mengatur radial gradient
+const gradient2 = ctx.createRadialGradient(canvas.width * 0.5, canvas.height * 0.5, 30, canvas.width * 0.5, canvas.height * 0.5, 200);
+gradient2.addColorStop('0.2', 'green'); //warna akhir
+gradient2.addColorStop('0.5', 'red'); //warna akhir
+gradient2.addColorStop('0.8', 'blue'); //warna akhir
+
+// ctx.strokeStyle = gradient1;
+ctx.strokeStyle = gradient2;
 
 //membuat sebuah garis lurus, konsep utama bisa di atur dibagian sini
 // ctx.beginPath(); // sebuah methods untuk memulai path, beginPath adalah properties dari ctx
