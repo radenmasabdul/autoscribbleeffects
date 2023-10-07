@@ -19,7 +19,17 @@ canvas.height = 900;
 //membuat global settings
 ctx.lineWidth = 10; //untuk mengatur ketebalan garis
 // ctx.lineCap = 'round'; //atur properties menjadi round
-ctx.strokeStyle = 'magenta'; //untuk mengatur warna garis
+// ctx.strokeStyle = 'magenta'; //untuk mengatur warna garis
+// ctx.createLinearGradient(x,y,width,height) //untuk mengatur liniear gradient
+const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+gradient1.addColorStop('0.2', 'pink'); //warna akhir
+gradient1.addColorStop('0.3', 'red'); //warna akhir
+gradient1.addColorStop('0.4', 'orange'); //warna akhir
+gradient1.addColorStop('0.5', 'yellow'); //warna akhir
+gradient1.addColorStop('0.6', 'green'); //warna akhir
+gradient1.addColorStop('0.7', 'turquoise'); //warna akhir
+gradient1.addColorStop('0.8', 'violet'); //warna akhir
+ctx.strokeStyle = gradient1;
 
 //membuat sebuah garis lurus, konsep utama bisa di atur dibagian sini
 // ctx.beginPath(); // sebuah methods untuk memulai path, beginPath adalah properties dari ctx
@@ -55,7 +65,7 @@ class Line {
         this.timer = 0; //mengatur value timer
     };
     draw(context) { //merupakan custom methods untuk membuat garis antara 2 titik
-        context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)'; //untuk mengatur warna garis secara acak
+        // context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)'; //untuk mengatur warna garis secara acak
         context.lineWidth = this.lineWidth; //untuk mengatur garis secara acak
         context.beginPath(); // sebuah methods untuk memulai path
         // context.moveTo(this.startX, this.startY); //untuk menentukan titik start
@@ -101,7 +111,7 @@ class Line {
 
 //membuat variable
 const lineArray = []; //untuk menampung semua objek garis
-const numberOfLines = 100; //mengatur jumlah garis
+const numberOfLines = 200; //mengatur jumlah garis
 for (let i = 0; i < numberOfLines; i++) {
     lineArray.push(new Line(canvas));
 };
