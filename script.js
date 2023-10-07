@@ -44,10 +44,11 @@ class Line {
         this.y = Math.random() * this.canvas.height; //membuat titik start vertikal secara acak berdasarkan lebar canvas
         // this.endX = Math.random() * this.canvas.width; //membuat titik akhir horizontal secara acak berdasarkan lebar canvas
         // this.endY = Math.random() * this.canvas.height; //membuat titik akhir vertikal secara acak berdasarkan lebar canvas
-        this.history = [{ x: this.x, y: this.y }] //riwayat posisi secara acak
-        this.lineWidth = Math.floor(Math.random() * 15 + 1) //membuat nilai acak antar 1 dan 16 pada garis
+        this.history = [{ x: this.x, y: this.y }]; //riwayat posisi secara acak
+        this.lineWidth = Math.floor(Math.random() * 15 + 1); //membuat nilai acak antar 1 dan 16 pada garis
         this.hue = Math.floor(Math.random() * 360); //membuat nilai acak untuk warna
-    }
+        this.maxLength = 10; //membuat panjang maksimal garis
+    };
     draw(context) { //merupakan custom methods untuk membuat garis antara 2 titik
         context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)'; //untuk mengatur warna garis secara acak
         context.lineWidth = this.lineWidth; //untuk mengatur garis secara acak
@@ -55,37 +56,52 @@ class Line {
         // context.moveTo(this.startX, this.startY); //untuk menentukan titik start
         context.moveTo(this.history[0].x, this.history[0].y); //untuk menentukan titik start
         //for loop dibagian untuk membuat garis acak sesuai jumlah value nya
-        for (let i = 0; i < 3; i++) {
-            this.x = Math.random() * this.canvas.width;
-            this.y = Math.random() * this.canvas.height;
-            this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
-        }
+        // for (let i = 0; i < 30; i++) {
+        //     this.x = Math.random() * this.canvas.width;
+        //     this.y = Math.random() * this.canvas.height;
+        //     this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
+        // }
         //for loop disini untuk menentukan titik posisi secara acak
         for (let i = 0; i < this.history.length; i++) {
             context.lineTo(this.history[i].x, this.history[i].y)
-        }
+        };
         // context.lineTo(this.endX, this.endY) //untuk menentukan titik akhir
         context.stroke(); //untuk merender jalur di kanvas
+    };
+    update() {
+        this.x = Math.random() * this.canvas.width;
+        this.y = Math.random() * this.canvas.height;
+        this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
+        //kondisi untuk mengatur maxlength
+        if (this.history.length > this.maxLength) {
+            this.history.shift();
+        };
     };
 };
 
 //membuat variable
 const lineArray = []; //untuk menampung semua objek garis
-const numberOfLines = 1; //mengatur jumlah garis
+const numberOfLines = 2; //mengatur jumlah garis
 for (let i = 0; i < numberOfLines; i++) {
     lineArray.push(new Line(canvas));
-}
+};
 console.log(lineArray);
-lineArray.forEach(line => line.draw(ctx)); //membaut garis menjadi acak
 
 //fungsi untuk animasi
 function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height) //untuk menghapus canvas
     //untuk draw line
-
+    // lineArray.forEach(line => line.draw(ctx)); //membaut garis menjadi acak
+    lineArray.forEach(line => {
+        line.draw(ctx);
+        line.update();
+    });
     //untuk update line
-
+    // lineArray.forEach(line => line.update(ctx)); //membaut garis menjadi acak
     requestAnimationFrame(animate);
-}
+    // console.log('animate');
+};
+animate();
 
 // const line1 = new Line(canvas);
 // line1.draw(ctx); //untuk menampilkan hasil dari methods draw
