@@ -47,7 +47,12 @@ class Line {
         this.history = [{ x: this.x, y: this.y }]; //riwayat posisi secara acak
         this.lineWidth = Math.floor(Math.random() * 15 + 1); //membuat nilai acak antar 1 dan 16 pada garis
         this.hue = Math.floor(Math.random() * 360); //membuat nilai acak untuk warna
-        this.maxLength = 10; //membuat panjang maksimal garis
+        // this.maxLength = 10; //membuat panjang maksimal garis
+        this.maxLength = Math.floor(Math.random() * 150 + 10); //membuat panjang maksimal garis
+        this.speedX = Math.random() * 1 - 0.5; //membuat kecepatan horizontal
+        this.speedY = 7; //membuat kecepatan vertikal
+        this.lifeSpan = this.maxLength * 2; //mengatur apakah garis meninggalkan area canvas
+        this.timer = 0; //mengatur value timer
     };
     draw(context) { //merupakan custom methods untuk membuat garis antara 2 titik
         context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)'; //untuk mengatur warna garis secara acak
@@ -69,19 +74,34 @@ class Line {
         context.stroke(); //untuk merender jalur di kanvas
     };
     update() {
-        this.x = Math.random() * this.canvas.width;
-        this.y = Math.random() * this.canvas.height;
-        this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
-        //kondisi untuk mengatur maxlength
-        if (this.history.length > this.maxLength) {
+        // this.x = Math.random() * this.canvas.width;
+        // this.y = Math.random() * this.canvas.height;
+        this.timer++;
+        if (this.timer < this.lifeSpan) {
+            this.x += this.speedX + Math.random() * 20 - 10; //jumlah value secaca acak pada titik horizontal
+            this.y += this.speedY + Math.random() * 20 - 10; //jumlah value secaca acak pada titik vertikal
+            this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
+            //kondisi untuk mengatur maxlength
+            if (this.history.length > this.maxLength) {
+                this.history.shift();
+            };
+        } else if (this.history.length <= 1) {
+            this.reset();
+        } else {
             this.history.shift();
         };
+    };
+    reset() {
+        this.x = Math.random() * this.canvas.width; //membuat titik start horizontal secara acak berdasarkan lebar canvas
+        this.y = Math.random() * this.canvas.height; //membuat titik start vertikal secara acak berdasarkan lebar canvas
+        this.history = [{ x: this.x, y: this.y }]; //riwayat posisi secara acak
+        this.timer = 0; //mengatur value timer
     };
 };
 
 //membuat variable
 const lineArray = []; //untuk menampung semua objek garis
-const numberOfLines = 2; //mengatur jumlah garis
+const numberOfLines = 100; //mengatur jumlah garis
 for (let i = 0; i < numberOfLines; i++) {
     lineArray.push(new Line(canvas));
 };
