@@ -1,0 +1,72 @@
+ini merupakan dokumentasi kode, jika belum mengetahui bisa dibaca terlebih dahulu.
+
+const ctx = canvas.getContext('2d'); //variable context ctx untuk mengambil variable canvas
+console.log(ctx); //untuk mengecek properties dan value pada ctx/context
+
+// untuk mengatur ukuran kanvas
+canvas.width = 700;
+canvas.height = 900;
+
+//membuat kotak diatas element
+x adalah koordinat horizontal (sumbu x) dari sudut kiri atas kotak.
+y adalah koordinat vertikal (sumbu y) dari sudut kiri atas kotak.
+
+ctx.fillRect(x, y, width, height); <== ini basic nya
+ctx.fillStyle = 'red'; <== untuk menetapkan warna value, fillStyle adalah properties dari ctx
+ctx.fillRect(100, 150, 200, 150); <== fillRect adalah properties dari ctx
+ctx.lineWidth = 10; <== mengatur ketebalan stroke, lineWidth adalah properties dari ctx
+ctx.strokeStyle = 'blue'; <== untuk menetapkan warna value, strokeStyle adalah properties dari ctx
+ctx.strokeRect(100, 150, 200, 150); <== untuk membuat stroke, strokeRect adalah properties dari ctx
+
+//membuat global settings
+ctx.lineWidth = 10; <== untuk mengatur ketebalan garis
+ctx.lineCap = 'round'; <== atur properties menjadi round
+ctx.strokeStyle = 'magenta'; <== untuk mengatur warna garis
+ctx.createLinearGradient(x,y,width,height) <== untuk mengatur liniear gradient
+
+//canvas shadow, jika render terlalu berat, nonaktifkan shadow
+ctx.shadowOffsetX = 2;
+ctx.shadowOffsetY = 2;
+ctx.shadowColor = 'black';
+
+//kode dibawah ini untuk membuat liniear gradient
+const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+gradient1.addColorStop('0.2', 'pink'); //warna akhir
+gradient1.addColorStop('0.3', 'red'); //warna akhir
+gradient1.addColorStop('0.4', 'orange'); //warna akhir
+gradient1.addColorStop('0.5', 'yellow'); //warna akhir
+gradient1.addColorStop('0.6', 'green'); //warna akhir
+gradient1.addColorStop('0.7', 'turquoise'); //warna akhir
+gradient1.addColorStop('0.8', 'violet'); //warna akhir
+
+//kode dibawah ini untuk membuat radial gradient
+// const gradient2 = ctx.createRadialGradient(x * 0.5, y * 0.5, radius); //untuk mengatur radial gradient
+const gradient2 = ctx.createRadialGradient(canvas.width * 0.5, canvas.height * 0.5, 30, canvas.width * 0.5, canvas.height * 0.5, 200);
+gradient2.addColorStop('0.2', 'green'); //warna akhir
+gradient2.addColorStop('0.5', 'red'); //warna akhir
+gradient2.addColorStop('0.8', 'blue'); //warna akhir
+
+//kode dibawah ini untuk membuat canvas pattern
+const paternImage = document.getElementById('patternImage');
+const pattern1 = ctx.createPattern(paternImage, 'no-repeat');
+
+//kode dibawah ini untuk mengaktifkan liniear gradient, radial gradient, pattern image, ganti warna
+ctx.strokeStyle = gradient1; //untuk aktifkan liniear gradient
+ctx.strokeStyle = gradient2; //untuk aktifkan radial gradient
+ctx.strokeStyle = pattern1; //untuk aktifkan pattern image, non aktifkan shadow jika render nya berat
+ctx.strokeStyle = 'white'; //untuk ganti warna
+
+//membuat sebuah garis lurus, konsep utama bisa di atur dibagian sini
+ctx.beginPath(); <== sebuah methods untuk memulai path, beginPath adalah properties dari ctx
+ctx.moveTo(x, y); <== ini basic nya
+ctx.moveTo(350, 600); <== sebuah methods untuk membuat subpath baru, moveTo adalah properties dari ctx
+ctx.lineTo(x, y); <== ini basic nya
+ctx.lineTo(450, 700) <== sebuah methods untuk membuat garis lurus dari subpath baru, lineTo adalah properties dari ctx
+ctx.lineTo(350, 800) <== membuat garis baru
+ctx.lineTo(150, 100) <== membuat garis baru
+ctx.lineTo(250, 300) <== membuat garis baru
+ctx.lineTo(250, 300) <== membuat garis baru
+ctx.lineTo(450, 200) <== membuat garis baru
+ctx.stroke(); <== sebuah metode stroke
+
+selebihnya bisa dibaca pada script.js :V atau lihat tutorial langsung di frank laboratory
