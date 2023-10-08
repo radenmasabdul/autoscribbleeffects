@@ -21,6 +21,7 @@ ctx.lineWidth = 10; //untuk mengatur ketebalan garis
 // ctx.lineCap = 'round'; //atur properties menjadi round
 // ctx.strokeStyle = 'magenta'; //untuk mengatur warna garis
 // ctx.createLinearGradient(x,y,width,height) //untuk mengatur liniear gradient
+//kode dibawah ini untuk membuat gradient
 const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 gradient1.addColorStop('0.2', 'pink'); //warna akhir
 gradient1.addColorStop('0.3', 'red'); //warna akhir
@@ -36,8 +37,13 @@ gradient2.addColorStop('0.2', 'green'); //warna akhir
 gradient2.addColorStop('0.5', 'red'); //warna akhir
 gradient2.addColorStop('0.8', 'blue'); //warna akhir
 
+//canvas pattern
+const paternImage = document.getElementById('patternImage');
+const pattern1 = ctx.createPattern(paternImage, 'no-repeat');
+
 // ctx.strokeStyle = gradient1;
-ctx.strokeStyle = gradient2;
+// ctx.strokeStyle = gradient2;
+ctx.strokeStyle = pattern1;
 
 //membuat sebuah garis lurus, konsep utama bisa di atur dibagian sini
 // ctx.beginPath(); // sebuah methods untuk memulai path, beginPath adalah properties dari ctx
