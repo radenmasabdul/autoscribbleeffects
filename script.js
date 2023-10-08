@@ -23,9 +23,9 @@ ctx.lineWidth = 10; //untuk mengatur ketebalan garis
 // ctx.createLinearGradient(x,y,width,height) //untuk mengatur liniear gradient
 
 //canvas shadow, jika render terlalu berat, nonaktifkan shadow
-ctx.shadowOffsetX = 2;
-ctx.shadowOffsetY = 2;
-ctx.shadowColor = 'black';
+// ctx.shadowOffsetX = 2;
+// ctx.shadowOffsetY = 2;
+// ctx.shadowColor = 'black';
 
 //kode dibawah ini untuk membuat gradient
 const gradient1 = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -47,9 +47,9 @@ gradient2.addColorStop('0.8', 'blue'); //warna akhir
 const paternImage = document.getElementById('patternImage');
 const pattern1 = ctx.createPattern(paternImage, 'no-repeat');
 
-// ctx.strokeStyle = gradient1;
-// ctx.strokeStyle = gradient2;
-// ctx.strokeStyle = pattern1; //untuk aktifkan shadow style
+ctx.strokeStyle = gradient1; //untuk aktifkan liniear gradient
+// ctx.strokeStyle = gradient2; //untuk aktifkan radial gradient
+// ctx.strokeStyle = pattern1; //untuk aktifkan pattern image, non aktifkan shadow jika render nya berat
 
 //membuat sebuah garis lurus, konsep utama bisa di atur dibagian sini
 // ctx.beginPath(); // sebuah methods untuk memulai path, beginPath adalah properties dari ctx
@@ -75,7 +75,7 @@ class Line {
         // this.endX = Math.random() * this.canvas.width; //membuat titik akhir horizontal secara acak berdasarkan lebar canvas
         // this.endY = Math.random() * this.canvas.height; //membuat titik akhir vertikal secara acak berdasarkan lebar canvas
         this.history = [{ x: this.x, y: this.y }]; //riwayat posisi secara acak
-        this.lineWidth = Math.floor(Math.random() * 15 + 1); //membuat nilai acak antar 1 dan 16 pada garis
+        this.lineWidth = Math.floor(Math.random() * 15 + 1); //membuat nilai acak antar 1 dan 16 pada garis, atur linewidth untuk pola images
         this.hue = Math.floor(Math.random() * 360); //membuat nilai acak untuk warna
         // this.maxLength = 10; //membuat panjang maksimal garis
         this.maxLength = Math.floor(Math.random() * 150 + 10); //membuat panjang maksimal garis
@@ -83,6 +83,10 @@ class Line {
         this.speedY = 7; //membuat kecepatan vertikal
         this.lifeSpan = this.maxLength * 2; //mengatur apakah garis meninggalkan area canvas
         this.timer = 0; //mengatur value timer
+        this.angle = 0; //mengatur angle untuk trigonometri
+        this.va = Math.random() * 0.5 - 0.25 //mengatur vc untuk trigonometri
+        this.curve = 0.1; //mengatur curva untuk trigonometri
+        this.vc = Math.random() * 0.4 - 0.2 //mengatur vc untuk trigonometri
     };
     draw(context) { //merupakan custom methods untuk membuat garis antara 2 titik
         context.strokeStyle = 'hsl(' + this.hue + ', 100%, 50%)'; //untuk mengatur warna garis secara acak
@@ -107,9 +111,14 @@ class Line {
         // this.x = Math.random() * this.canvas.width;
         // this.y = Math.random() * this.canvas.height;
         this.timer++;
+        this.angle += this.va;
+        this.curve += this.vc;
         if (this.timer < this.lifeSpan) {
-            this.x += this.speedX + Math.random() * 20 - 10; //jumlah value secaca acak pada titik horizontal
-            this.y += this.speedY + Math.random() * 20 - 10; //jumlah value secaca acak pada titik vertikal
+            // this.x += this.speedX + Math.random() * 20 - 10; //jumlah value secaca acak pada titik horizontal
+            this.x += Math.sin(this.angle) * this.curve; //jumlah value secaca acak pada titik horizontal
+            this.y += Math.cos(this.angle) * this.curve;  //jumlah value secaca acak pada titik vertikal
+            // this.y += this.speedY + Math.random() * 20 - 10; //jumlah value secaca acak pada titik vertikal
+            // this.y += this.speedY; //jumlah value secaca acak pada titik vertikal
             this.history.push({ x: this.x, y: this.y }) //push hasil loop ke history
             //kondisi untuk mengatur maxlength
             if (this.history.length > this.maxLength) {
@@ -126,6 +135,8 @@ class Line {
         this.y = Math.random() * this.canvas.height; //membuat titik start vertikal secara acak berdasarkan lebar canvas
         this.history = [{ x: this.x, y: this.y }]; //riwayat posisi secara acak
         this.timer = 0; //mengatur value timer
+        this.angle = 0;
+        this.curve = 0;
     };
 };
 
